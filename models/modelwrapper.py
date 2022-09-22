@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision import models
-import pretrainedmodels
+import pretrainedmodels #get it from https://github.com/Cadene/pretrained-models.pytorch.git
 
 class ModelWrapper(nn.Module):
 
