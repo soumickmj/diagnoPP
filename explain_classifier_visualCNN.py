@@ -79,8 +79,8 @@ torch.cuda.manual_seed(seed)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
-if __name__ == "__main__" :
-    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")    
+if __name__ == "__main__":
+    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")
     testset = COVID19_Dataset(imgpath=imgfolder, 
                     csvpath=metapath, 
                     views=views,
@@ -97,7 +97,7 @@ if __name__ == "__main__" :
     test_loader = DataLoader(dataset=testset,batch_size=batch_size,shuffle=False, num_workers=num_workers)
 
     model = ModelWrapper(n_class=n_class, model_class=pretrainedModel, repeatgray=repeatgray)
-    model.to(device)    
+    model.to(device)
     chk = torch.load(checkpoint2load)
     model.load_state_dict(chk['state_dict'])
     loss_fn = nn.BCEWithLogitsLoss()
@@ -107,7 +107,7 @@ if __name__ == "__main__" :
     runningLossCounter = 0.0
     val_loss = 0.0
     with torch.no_grad():
-        for i, data in enumerate(test_loader):
+        for data in test_loader:
             images = Variable(data['img']).to(device)
             labels = Variable(data['lab']).to(device)
             if type(loss_fn) is nn.BCEWithLogitsLoss:

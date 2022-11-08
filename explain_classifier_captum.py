@@ -130,7 +130,7 @@ if __name__ == "__main__" :
             img_path = os.path.join(testset.imgpath, imgid)
             if file2run and imgid != file2run:
                 continue
-            
+
             images = Variable(data['img']).to(device).float()
             labels = Variable(data['lab']).to(device).int()
             if repeatgray:

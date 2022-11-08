@@ -3,8 +3,8 @@ try:
 except Exception as ex:
     print(ex)
     print(type(ex))
-    print(str(ex))
-    
+    print(ex)
+        
 
 
 import os
@@ -37,11 +37,13 @@ for finding in metaclean.finding.unique():
         valpatients += temp_val
 
 with open(r'S:\MEMoRIAL_SharedStorage_M1.2+4+7\Data\PublicDSs\Covid-19\IEEE8023_COVID_CHESTXRay\IEEE8023V2_60_40_00fold4.txt', 'w') as outfile:
-    jData = {}
-    jData['seed'] = seed
-    jData['train'] = list(set(trainpatients))
-    jData['test'] = list(set(testpatients))
-    jData['val'] = list(set(valpatients))
+    jData = {
+        'seed': seed,
+        'train': list(set(trainpatients)),
+        'test': list(set(testpatients)),
+        'val': list(set(valpatients)),
+    }
+
     json.dump(jData, outfile)
 ###########
 

@@ -133,19 +133,20 @@ torch.cuda.manual_seed(seed)
 # torch.backends.cudnn.deterministic = True
 # torch.backends.cudnn.benchmark = False
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     explain_out = os.path.join(explain_out, '0 Specific Subjects')
-    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")  
-    model_names = []
-    for checkpoint in model_checkpoints:
-        model_names.append(os.path.basename(checkpoint).split('.')[0])
-    
+    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")
+    model_names = [
+        os.path.basename(checkpoint).split('.')[0]
+        for checkpoint in model_checkpoints
+    ]
+
     if len(sys.argv) > 1:
         modelID = int(sys.argv[1])
-        print("Only explaining Model ID : "+str(modelID) +" "+ model_names[modelID])
+        print(f"Only explaining Model ID : {modelID} {model_names[modelID]}")
         model_names = [model_names[modelID]]
         model_checkpoints = [model_checkpoints[modelID]]
-    print(str(len(model_checkpoints))+" model(s) explaining")
+    print(f"{len(model_checkpoints)} model(s) explaining")
 
     testset = COVID19_Dataset(imgpath=imgfolder, 
                     csvpath=metapath, 
@@ -162,11 +163,7 @@ if __name__ == "__main__" :
                     intenper_lower=intenper_lower)
     test_loader = DataLoader(dataset=testset,batch_size=batch_size,shuffle=False, num_workers=num_workers)
 
-    if subgroup_diseases:
-        losshandle = nn.BCEWithLogitsLoss
-    else:
-        losshandle = nn.CrossEntropyLoss
-
+    losshandle = nn.BCEWithLogitsLoss if subgroup_diseases else nn.CrossEntropyLoss
     if not useClassWeight:
         loss_fn = losshandle()
     else:

@@ -145,19 +145,20 @@ torch.cuda.manual_seed(seed)
 # torch.backends.cudnn.deterministic = True
 # torch.backends.cudnn.benchmark = False
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     explain_out = os.path.join(explain_out, '0 Specific Subjects')
-    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")  
-    model_names = []
-    for checkpoint in model_checkpoints:
-        model_names.append(os.path.basename(checkpoint).split('.')[0])
-    
+    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")
+    model_names = [
+        os.path.basename(checkpoint).split('.')[0]
+        for checkpoint in model_checkpoints
+    ]
+
     if len(sys.argv) > 1:
         modelID = int(sys.argv[1])
-        print("Only explaining Model ID : "+str(modelID) +" "+ model_names[modelID])
+        print(f"Only explaining Model ID : {modelID} {model_names[modelID]}")
         model_names = [model_names[modelID]]
         model_checkpoints = [model_checkpoints[modelID]]
-    print(str(len(model_checkpoints))+" model(s) explaining")
+    print(f"{len(model_checkpoints)} model(s) explaining")
 
     testset = COVID19_Dataset(imgpath=imgfolder, 
                     csvpath=metapath, 
@@ -243,7 +244,7 @@ if __name__ == "__main__" :
                                         'net.0.net.features.denseblock3.denselayer1.relu1',
                                         'net.0.net.features.denseblock4.denselayer1.relu1',
                                         'net.0.net.features']
-                    
+
                 elif 'IncepResV2' in model_name:
                     # all layers with dim red and all layers with increase of FM number
                     layers_of_interest = ['net.0.net.maxpool_3a',
@@ -280,7 +281,7 @@ if __name__ == "__main__" :
                     hk = Hooker(model)
                     o = model(images)
                     act = hk.get_hooked_activations()
-                    
+
                     act = {k: v for k, v in act.items() if k in layers_of_interest}
 
                     out = {
@@ -293,13 +294,13 @@ if __name__ == "__main__" :
                         np.save(f, out)
                 except:
                     pass
-                
+
                 # torch.onnx.export(model, images, f"{ONNX_out}/{model_name}.onnx")
 
                 del chk, model
                 gc.collect()
                 torch.cuda.empty_cache()
-            
+
             # visualize_model_visualCNN(model, layerID=layerID4visualCNN, filter_position=filter_position, im_path=img_path, classID=2, inputs=images, file_name_to_export=explain_out_img_viscnn) #TODO: untested
 
     print("All Done!!")
