@@ -112,13 +112,13 @@ torch.cuda.manual_seed(seed)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     explain_out = os.path.join(explain_out, '0 Specific Subjects')
-    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")    
-    model_names = []
-    for checkpoint in model_checkpoints:
-        model_names.append(os.path.basename(checkpoint).split('.')[0])
-    
+    device = torch.device("cuda:0" if torch.cuda.is_available() and useCuda else "cpu")
+    model_names = [
+        os.path.basename(checkpoint).split('.')[0]
+        for checkpoint in model_checkpoints
+    ]
 
     testset = COVID19_Dataset(imgpath=imgfolder, 
                     csvpath=metapath, 
@@ -135,11 +135,7 @@ if __name__ == "__main__" :
                     intenper_lower=intenper_lower)
     test_loader = DataLoader(dataset=testset,batch_size=batch_size,shuffle=False, num_workers=num_workers)
 
-    if subgroup_diseases:
-        losshandle = nn.BCEWithLogitsLoss
-    else:
-        losshandle = nn.CrossEntropyLoss
-
+    losshandle = nn.BCEWithLogitsLoss if subgroup_diseases else nn.CrossEntropyLoss
     if not useClassWeight:
         loss_fn = losshandle()
     else:
@@ -179,7 +175,7 @@ if __name__ == "__main__" :
             img_path = os.path.join(testset.imgpath, imgid)
             if file2run and imgid != file2run:
                 continue
-            
+
             images = Variable(data['img']).to(device).float()
             labels = Variable(data['lab']).to(device).int()
             if repeatgray:
