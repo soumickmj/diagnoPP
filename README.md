@@ -10,7 +10,7 @@ If you like this repository, please click on Star!
 
 If you use this approach in your research or use codes from this repository, please cite the following in your publications:
 
-> [Soumick Chatterjee, Fatima Saad, Chompunuch Sarasaen, Suhita Ghosh, Valerie Krug, Rupali Khatun, Rahul Mishra, Nirja Desai, Petia Radeva, Georg Rose, Sebastian Stober, Oliver Speck, Andreas Nürnberger: Exploration of Interpretability Techniques for Deep COVID-19 Classification using Chest X-ray Images (arXiv:2006.02570, Jun 2020)](https://www.mdpi.com/2313-433X/10/2/45)
+> [Soumick Chatterjee, Fatima Saad, Chompunuch Sarasaen, Suhita Ghosh, Valerie Krug, Rupali Khatun, Rahul Mishra, Nirja Desai, Petia Radeva, Georg Rose, Sebastian Stober, Oliver Speck, Andreas Nürnberger: Exploration of Interpretability Techniques for Deep COVID-19 Classification using Chest X-ray Images (J. Imaging 2024, 10(2), 45)](https://www.mdpi.com/2313-433X/10/2/45)
 
 BibTeX entry:
 
